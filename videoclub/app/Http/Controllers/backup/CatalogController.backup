@@ -1,32 +1,10 @@
 <?php
-
-use Illuminate\Database\Seeder;
-
-class DatabaseSeeder extends Seeder
+namespace App\Http\Controllers;
+use App\User;
+use App\Http\Controllers\Controller;
+class CatalogController extends Controller
 {
-    /**
-     * Seed the application's database.
-     *
-     * @return void
-     */
-
-    private function seedCatalog()
-    {
-	DB::table('movies')->delete();
-	foreach( $this->arrayPeliculas as $pelicula ) {
-	    $p = new Movie;
-	    $p->title = $pelicula['title'];
-	    $p->year = $pelicula['year'];
-	    $p->director = $pelicula['director'];
-	    $p->poster = $pelicula['poster'];
-	    $p->rented = $pelicula['rented'];
-	    $p->synopsis = $pelicula['synopsis'];
-	    $p->save();
-    }
-
-    }
-
-    private $arrayPeliculas = array(
+ private $arrayPeliculas = array(
 		array(
 			'title' => 'El padrino',
 			'year' => '1972', 
@@ -188,11 +166,48 @@ class DatabaseSeeder extends Seeder
 			'synopsis' => 'Un joven hastiado de su gris y monótona vida lucha contra el insomnio. En un viaje en avión conoce a un carismático vendedor de jabón que sostiene una teoría muy particular: el perfeccionismo es cosa de gentes débiles; sólo la autodestrucción hace que la vida merezca la pena. Ambos deciden entonces fundar un club secreto de lucha, donde poder descargar sus frustaciones y su ira, que tendrá un éxito arrollador.'
 		)
 	);
+/*
+ public function getIndex(){
+  return view('catalog.index', array('arrayPeliculas'=>$this->arrayPeliculas));
+ }
+ public function getShow(){
+  return view('catalog.show', array('arrayPeliculas[$id]'=>$this->arrayPeliculas[$id]));
+ }
+ public function getCreate(){
+  return view('catalog.create');
+ }
+ public function getEdit ($id){
+  return view('catalog.edit', array('id'=>$id));
+ }
+*/
 
-    public function run()
-    {
-        // $this->call(UsersTableSeeder::class);
-	self::seedCatalog();
-	$this->command->info('Tabla catálogo incializada con datos!');
-    }
+ public function getIndex(){
+  return view('catalog.index', array('arrayPeliculas'=>$this->arrayPeliculas));
+ }
+ public function getShow($id){
+  return view('catalog.show', array('arrayPeliculas'=>$this->arrayPeliculas[$id]));
+ }
+ public function getCreate(){
+  return view('catalog.create');
+ }
+ public function getEdit($id){
+  return view('catalog.edit', array('id'=>$id));
+ }
+
+
+/*
+ public function getIndex (){
+  return view('catalog');
+ }
+ public function getShow($id){
+  return view('catalog.show', array('id'=>$id));
+ }
+ public function getCreate (){
+  return view('catalog.create');
+ }
+ public function getEdit ($id){
+  return view('catalog.edit', array('id'=>$id));
+ }
+*/
 }
+

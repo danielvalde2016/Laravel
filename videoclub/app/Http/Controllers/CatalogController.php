@@ -1,31 +1,11 @@
 <?php
 
-use Illuminate\Database\Seeder;
+namespace App\Http\Controllers;
 
-class DatabaseSeeder extends Seeder
+use Illuminate\Http\Request;
+
+class CatalogController extends Controller
 {
-    /**
-     * Seed the application's database.
-     *
-     * @return void
-     */
-
-    private function seedCatalog()
-    {
-	DB::table('movies')->delete();
-	foreach( $this->arrayPeliculas as $pelicula ) {
-	    $p = new Movie;
-	    $p->title = $pelicula['title'];
-	    $p->year = $pelicula['year'];
-	    $p->director = $pelicula['director'];
-	    $p->poster = $pelicula['poster'];
-	    $p->rented = $pelicula['rented'];
-	    $p->synopsis = $pelicula['synopsis'];
-	    $p->save();
-    }
-
-    }
-
     private $arrayPeliculas = array(
 		array(
 			'title' => 'El padrino',
@@ -189,10 +169,20 @@ class DatabaseSeeder extends Seeder
 		)
 	);
 
-    public function run()
-    {
-        // $this->call(UsersTableSeeder::class);
-	self::seedCatalog();
-	$this->command->info('Tabla catálogo incializada con datos!');
-    }
+ public function getCreate(){
+  return view('catalog.create', array('arrayPeliculas'=>$this->arrayPeliculas));
+ }
+
+ public function getIndex(){
+  return view('catalog.index', array('arrayPeliculas'=>$this->arrayPeliculas));
+ }
+
+ public function getShow($id){
+  return view('catalog.show.{id}', array('arrayPeliculas'=>$this->arrayPeliculas[$id]));
+ }
+
+ public function getEdit($id){
+  return view('catalog.edit.{id}', array('arrayPeliculas'=>$id));
+ }
+
 }
